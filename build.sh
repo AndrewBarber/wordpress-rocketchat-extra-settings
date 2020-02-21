@@ -14,7 +14,7 @@ DEST_FILE=$DEST_DIR/$PLUGIN_NAME.zip
 [[ $DEST_FILE ]] || rm $DEST_FILE
 
 #Zip Up the files excluding ./build 🚧
-$ZIP_CMD -r $DEST_FILE . --exclude="./build*"
+$ZIP_CMD -r $DEST_FILE . -x "./build*" -x ".git/*" -x ".gitignore" -x "LICENSE"
 
 #That was easy! 🍻
 echo -e "🍻  \e[32mCompleted - You can now find your plugin in ./build"

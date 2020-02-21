@@ -81,7 +81,6 @@ function rx_x_sttngs_admin_page_init(){
             <form method="post" action="options.php">
             <?php settings_fields( 'rx_x_sttngs' ); ?>
             <?php do_settings_sections( 'rx_x_sttngs' ); ?>
-            <?php $checked = ($options == 'true' ? ' checked="checked"' : ''); ?>
                 <table class="form-table" role="presentation">
                     <tbody>
                         <tr>

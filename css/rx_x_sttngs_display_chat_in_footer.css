@@ -1,0 +1,22 @@
+.storefront-handheld-footer-bar ul li.rocketchat>a:before {
+    content: "\f4ad";
+}
+
+
+.storefront-handheld-footer-bar ul li.rocketchat .count {
+    background-color: lightgreen;
+    color: #ffffff;
+    border-color: #ffffff;
+    text-indent: 0;
+    display: block;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+    box-sizing: content-box;
+    font-size: 0.75em;
+    position: absolute;
+    top: 1.2em;
+    left: 55%;
+    border-radius: 100%;
+    border: 1px solid;
+}

@@ -1,0 +1,1 @@
+# wordpress-rocketchat-extra-settings

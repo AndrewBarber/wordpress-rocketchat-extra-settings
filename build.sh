@@ -11,7 +11,7 @@ DEST_FILE=$DEST_DIR/$PLUGIN_NAME.zip
 [[ -d $DEST_DIR ]] || mkdir $DEST_DIR
 
 #If a zip of the plugin exists then delete it. 🗑️
-[[ $DEST_FILE ]] || rm $DEST_FILE
+rm $DEST_FILE
 
 #Zip Up the files excluding ./build 🚧
 $ZIP_CMD -r $DEST_FILE . -x "./build*" -x ".git/*" -x ".gitignore" -x "LICENSE"

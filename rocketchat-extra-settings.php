@@ -29,7 +29,7 @@ if ( ! defined( 'WPINC' ) ) {
  * A helper function to check if a plugin is active
  */
 
-function check_for_plugin($pluginName){
+function rxstg_check_for_plugin($pluginName){
     if(in_array($pluginName . '/' . $pluginName .'.php', apply_filters('active_plugins', get_option('active_plugins')))){ 
         return true;    
     } else {
@@ -40,23 +40,23 @@ function check_for_plugin($pluginName){
 /**
  * Screen and Setting adujstments for WP-Admin.
  */
-add_action('admin_menu', 'rx_x_sttngs_setup_menu');
+add_action('admin_menu', 'rxstg_setup_menu');
 
-function rx_x_sttngs_setup_menu(){
-    add_menu_page( 'RocketChat Extra Settings', 'RocketChat Settings', 'manage_options', 'rocketchat-exta-settings', 'rx_x_sttngs_admin_page_init', 'dashicons-format-chat' );
-    add_action( 'admin_init', 'register_rx_x_sttngs' );
+function rxstg_setup_menu(){
+    add_menu_page( 'RocketChat Extra Settings', 'RocketChat Settings', 'manage_options', 'rocketchat-exta-settings', 'rxstg_admin_page_init', 'dashicons-format-chat' );
+    add_action( 'admin_init', 'rxstg_register_settings' );
 }
 
-function register_rx_x_sttngs(){
-    register_setting( 'rx_x_sttngs', 'rx_x_sttngs_username_pull' );
-    register_setting( 'rx_x_sttngs', 'rx_x_sttngs_email_pull' );
-    register_setting( 'rx_x_sttngs', 'rx_x_sttngs_display_chat_in_footer' );
-    register_setting( 'rx_x_sttngs', 'rx_x_sttngs_display_chat_above_footer' );
-    register_setting( 'rx_x_sttngs', 'rx_x_sttngs_rc_url' );
-    register_setting( 'rx_x_sttngs', 'rx_x_sttngs_rc_old' );
+function rxstg_register_settings(){
+    register_setting( 'rxstg', 'rxstg_username_pull' );
+    register_setting( 'rxstg', 'rxstg_email_pull' );
+    register_setting( 'rxstg', 'rxstg_display_chat_in_footer' );
+    register_setting( 'rxstg', 'rxstg_display_chat_above_footer' );
+    register_setting( 'rxstg', 'rxstg_rc_url' );
+    register_setting( 'rxstg', 'rxstg_rc_old' );
 }
 
-function rx_x_sttngs_admin_page_init(){
+function rxstg_admin_page_init(){
     ?>
     <div class="wrap">
         <h1>Rocket Chat Extra Settings</h1>
@@ -64,23 +64,23 @@ function rx_x_sttngs_admin_page_init(){
         <br/><br/>
         <h2>Rocket.Chat Plugin Status</h2>
         <p>
-            <?php echo (!check_for_plugin('rocketchat-livechat')) ? '<span class="dashicons dashicons-yes-alt" style="color: green;"></span> All systems are go!' : '<span class="dashicons dashicons-no-alt" style="color: red;"></span> Please delete (or deactivate) the <a href="plugins.php">original (and outdated) Rocket.Chat LiveChat plugin</a> first.'; ?> 
+            <?php echo (!rxstg_check_for_plugin('rocketchat-livechat')) ? '<span class="dashicons dashicons-yes-alt" style="color: green;"></span> All systems are go!' : '<span class="dashicons dashicons-no-alt" style="color: red;"></span> Please delete (or deactivate) the <a href="plugins.php">original (and outdated) Rocket.Chat LiveChat plugin</a> first.'; ?> 
         </p>
         <br/>
         <?php
-        if (!check_for_plugin('rocketchat-livechat')){
+        if (!rxstg_check_for_plugin('rocketchat-livechat')){
         ?>
             <h2>ShortCode</h2>
             <p>You can use the following <a href="https://support.wordpress.com/shortcodes/" target="_blank">ShortCode</a> to create a button to start a new LiveChat.</p>
             <p><code>[rocketchat title='Open Support Chat']</code></p>
             <p>Example...<br/>
-                <button type="button" class="btn" id="rx_x_sttngs_shortcode_btn">Open Support Chat <span class="dashicons dashicons-format-status"></span></button>
+                <button type="button" class="btn" id="rxstg_shortcode_btn">Open Support Chat <span class="dashicons dashicons-format-status"></span></button>
             </p>
             <br/>
             <h2>Settings</h2>
             <form method="post" action="options.php">
-            <?php settings_fields( 'rx_x_sttngs' ); ?>
-            <?php do_settings_sections( 'rx_x_sttngs' ); ?>
+            <?php settings_fields( 'rxstg' ); ?>
+            <?php do_settings_sections( 'rxstg' ); ?>
                 <table class="form-table" role="presentation">
                     <tbody>
                         <tr>
@@ -88,12 +88,12 @@ function rx_x_sttngs_admin_page_init(){
                             <td>
                                 <fieldset>
                                     <legend class="screen-reader-text"><span>RocketChat URL</span></legend>
-                                    <label for="rx_x_sttngs_rc_url">
-                                        <input type="text" name="rx_x_sttngs_rc_url" value="<?php echo get_option('rx_x_sttngs_rc_url') ?>" placeholder="eg. https://chat.domain.tld/" id="rx_x_sttngs_rc_url" size="100" class="" />
+                                    <label for="rxstg_rc_url">
+                                        <input type="text" name="rxstg_rc_url" value="<?php echo get_option('rxstg_rc_url') ?>" placeholder="eg. https://chat.domain.tld/" id="rxstg_rc_url" size="100" class="" />
                                     </label>
                                     <br />
-                                    <label for="rx_x_sttngs_rc_old">
-                                        <input name="rx_x_sttngs_rc_old" type="checkbox" id="rx_x_sttngs_rc_old" value="1" <?php checked(1, get_option('rx_x_sttngs_rc_old'), true); ?> />
+                                    <label for="rxstg_rc_old">
+                                        <input name="rxstg_rc_old" type="checkbox" id="rxstg_rc_old" value="1" <?php checked(1, get_option('rxstg_rc_old'), true); ?> />
                                         I use an old version of Rocket.Chat (v1.5 and below)
                                     </label>
                                 </fieldset>
@@ -104,33 +104,33 @@ function rx_x_sttngs_admin_page_init(){
                             <td>
                                 <fieldset>
                                     <legend class="screen-reader-text"><span>User Details for registered users</span></legend>
-                                    <label for="rx_x_sttngs_username_pull">
-                                        <input name="rx_x_sttngs_username_pull" type="checkbox" id="rx_x_sttngs_username_pull" value="1" <?php checked(1, get_option('rx_x_sttngs_username_pull'), true); ?> />
+                                    <label for="rxstg_username_pull">
+                                        <input name="rxstg_username_pull" type="checkbox" id="rxstg_username_pull" value="1" <?php checked(1, get_option('rxstg_username_pull'), true); ?> />
                                         Use first and surname (username if not set)
                                     </label>
                                     <br />
-                                    <label for="rx_x_sttngs_email_pull">
-                                        <input name="rx_x_sttngs_email_pull" type="checkbox" id="rx_x_sttngs_email_pull" value="1" <?php checked(1, get_option('rx_x_sttngs_email_pull'), true); ?> />
+                                    <label for="rxstg_email_pull">
+                                        <input name="rxstg_email_pull" type="checkbox" id="rxstg_email_pull" value="1" <?php checked(1, get_option('rxstg_email_pull'), true); ?> />
                                         Use email address
                                     </label>
                                 </fieldset>
                             </td>
                         </tr>
                         <?php 
-                        if (check_for_plugin('woocommerce')){
+                        if (rxstg_check_for_plugin('woocommerce')){
                         ?>
                             <tr>
                                 <th scope="row">Display Settings<br/>(WooCommerce)</th>
                                 <td>
                                     <fieldset>
                                         <legend class="screen-reader-text"><span>Display Settings</span></legend>
-                                        <label for="rx_x_sttngs_display_chat_in_footer">
-                                            <input name="rx_x_sttngs_display_chat_in_footer" type="checkbox" id="rx_x_sttngs_display_chat_in_footer" value="1" <?php checked(1, get_option('rx_x_sttngs_display_chat_in_footer'), true); ?> />
+                                        <label for="rxstg_display_chat_in_footer">
+                                            <input name="rxstg_display_chat_in_footer" type="checkbox" id="rxstg_display_chat_in_footer" value="1" <?php checked(1, get_option('rxstg_display_chat_in_footer'), true); ?> />
                                             Show chat in the footer bar (on mobile)
                                         </label>
                                         <br />
-                                        <label for="rx_x_sttngs_display_chat_above_footer">
-                                            <input name="rx_x_sttngs_display_chat_above_footer" type="checkbox" id="rx_x_sttngs_display_chat_above_footer" value="1" <?php checked(1, get_option('rx_x_sttngs_display_chat_above_footer'), true); ?> />
+                                        <label for="rxstg_display_chat_above_footer">
+                                            <input name="rxstg_display_chat_above_footer" type="checkbox" id="rxstg_display_chat_above_footer" value="1" <?php checked(1, get_option('rxstg_display_chat_above_footer'), true); ?> />
                                             Show chat above the footer bar (on mobile)
                                         </label>
                                     </fieldset>
@@ -153,8 +153,8 @@ function rx_x_sttngs_admin_page_init(){
 /**
  * Cofffffffeeeeeeeeeeeeeeeeeeee is life. ☕
  */
-add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'salcode_add_plugin_page_settings_link');
-function salcode_add_plugin_page_settings_link( $links ) {
+add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'rxstg_coffee_link');
+function rxstg_coffee_link( $links ) {
 	$links[] = '<a href="https://www.buymeacoffee.com/AndrewBarber" target="_blank">☕  Coffee</a>';
 	return $links;
 }
@@ -165,22 +165,23 @@ function salcode_add_plugin_page_settings_link( $links ) {
  * Pull RocketChat in
  */
 
-add_action('wp_body_open', 'load_rocketchat');
-function load_rocketchat(){
-    $rx_x_sttngs_rc_url = esc_url( trailingslashit(get_option('rx_x_sttngs_rc_url')));
-    $rx_x_sttngs_rc_old = get_option('rx_x_sttngs_rc_old');
-    if (!check_for_plugin('rocketchat-livechat')){
-        if(!(isset($rx_x_sttngs_rc_url) === true && $rx_x_sttngs_rc_url === '')){
-            if($rx_x_sttngs_rc_old){
+add_action('wp_footer', 'rxstg_load_rocketchat', 20);
+function rxstg_load_rocketchat(){
+    $rxstg_rc_url = esc_url( trailingslashit(get_option('rxstg_rc_url')));
+    $rxstg_rc_old = get_option('rxstg_rc_old');
+
+    if (!rxstg_check_for_plugin('rocketchat-livechat')){
+        if(!(isset($rxstg_rc_url) === true && $rxstg_rc_url === '')){
+            if($rxstg_rc_old){
                 echo '
                 <!-- Start of Rocket.Chat Livechat Script -->
                 <script type="text/javascript">
                 (function(w, d, s, u) {
                     w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
                     var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
-                    j.async = false; j.src = "' . $rx_x_sttngs_rc_url . 'livechat/1.0.0/rocketchat-livechat.min.js?_=201903270000";
+                    j.async = false; j.src = "' . $rxstg_rc_url . 'livechat/1.0.0/rocketchat-livechat.min.js?_=201903270000";
                     h.parentNode.insertBefore(j, h);
-                })(window, document, "script", "' . $rx_x_sttngs_rc_url . 'livechat");
+                })(window, document, "script", "' . $rxstg_rc_url . 'livechat");
                 </script>
                 <!-- End of Rocket.Chat Livechat Script -->
                 ';
@@ -191,9 +192,9 @@ function load_rocketchat(){
                 (function(w, d, s, u) {
                     w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
                     var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
-                    j.async = false; j.src = "' . $rx_x_sttngs_rc_url . 'livechat/rocketchat-livechat.min.js?_=201903270000";
+                    j.async = false; j.src = "' . $rxstg_rc_url . 'livechat/rocketchat-livechat.min.js?_=201903270000";
                     h.parentNode.insertBefore(j, h);
-                })(window, document, "script", "' . $rx_x_sttngs_rc_url . 'livechat");
+                })(window, document, "script", "' . $rxstg_rc_url . 'livechat");
                 </script>
                 <!-- End of Rocket.Chat Livechat Script -->
                 ';
@@ -206,11 +207,11 @@ function load_rocketchat(){
 /**
  * Choose if we pull registered users details into rocket.chat
  */
-add_action( 'wp_enqueue_scripts', 'add_user_details_to_rocketchat' );
-function add_user_details_to_rocketchat(){
-    $rx_x_sttngs_username_pull = get_option('rx_x_sttngs_username_pull');
-    $rx_x_sttngs_email_pull = get_option('rx_x_sttngs_email_pull');
-    if ($rx_x_sttngs_username_pull || $rx_x_sttngs_email_pull ){
+add_action( 'wp_enqueue_scripts', 'rxstg_add_user_details_to_rocketchat' );
+function rxstg_add_user_details_to_rocketchat(){
+    $rxstg_username_pull = get_option('rxstg_username_pull');
+    $rxstg_email_pull = get_option('rxstg_email_pull');
+    if ($rxstg_username_pull || $rxstg_email_pull ){
         $user_id = get_current_user_id(); 
         $user_info = get_userdata($user_id);
         $userName = $user_info->first_name ? $user_info->first_name . ' ' . $user_info->last_name : $user_info->user_login;
@@ -218,13 +219,13 @@ function add_user_details_to_rocketchat(){
         
         echo '<script>
         window.onload = function(){';
-        if ($rx_x_sttngs_username_pull){
+        if ($rxstg_username_pull){
             echo '
             RocketChat(function() {
                 this.setGuestName("' . $userName . '");
             });';
         }
-        if ($rx_x_sttngs_email_pull){
+        if ($rxstg_email_pull){
             echo '
             RocketChat(function() {
                 this.setGuestEmail("' . $userEmail . '");
@@ -240,15 +241,15 @@ function add_user_details_to_rocketchat(){
  * Add an extra space onto the handheld footer bar
  */
 
-add_action( 'storefront_handheld_footer_bar_links', 'display_chat_footer' );
-function display_chat_footer($links){
-    $rx_x_sttngs_display_chat_in_footer = get_option('rx_x_sttngs_display_chat_in_footer');
+add_action( 'storefront_handheld_footer_bar_links', 'rxstg_display_chat_footer' );
+function rxstg_display_chat_footer($links){
+    $rxstg_display_chat_in_footer = get_option('rxstg_display_chat_in_footer');
 
-    if($rx_x_sttngs_display_chat_in_footer && check_for_plugin('woocommerce')){
+    if($rxstg_display_chat_in_footer && rxstg_check_for_plugin('woocommerce')){
         $new_links = array(
             'rocketchat' => array(
                 'priority' => 10,
-                'callback' => 'add_rt_link',
+                'callback' => 'rxstg_add_rt_link',
             ),
         );
 
@@ -262,7 +263,7 @@ function display_chat_footer($links){
  * Add an extra item into the handheld footer bar for RocketChat
  */
 
-function add_rt_link() {
+function rxstg_add_rt_link() {
     echo '<a href="#" id="loadRocketChatButton">' . __( 'RocketChat' ) . '<!-- TODO: LiveChat Offline/Online (See: https://forums.rocket.chat/t/livechat-status-online-offline/5906)  <span class="count"></span>--></a>';
 
     echo '
@@ -300,12 +301,12 @@ function add_rt_link() {
 
 }
 
-add_action('wp_enqueue_scripts', 'rx_x_sttngs_display_chat_in_footer_styles');
-function rx_x_sttngs_display_chat_in_footer_styles() {
-    $rx_x_sttngs_display_chat_in_footer = get_option('rx_x_sttngs_display_chat_in_footer');
+add_action('wp_enqueue_scripts', 'rxstg_display_chat_in_footer_styles');
+function rxstg_display_chat_in_footer_styles() {
+    $rxstg_display_chat_in_footer = get_option('rxstg_display_chat_in_footer');
 
-    if($rx_x_sttngs_display_chat_in_footer && check_for_plugin('woocommerce')){
-        wp_enqueue_style( 'rt_x_settings', plugin_dir_url( __FILE__ ) . 'css/rx_x_sttngs_display_chat_in_footer.css' );
+    if($rxstg_display_chat_in_footer && rxstg_check_for_plugin('woocommerce')){
+        wp_enqueue_style( 'rxstg_display_chat_in_footer', plugin_dir_url( __FILE__ ) . 'css/rxstg_display_chat_in_footer.css' );
     }
 }
 
@@ -313,12 +314,12 @@ function rx_x_sttngs_display_chat_in_footer_styles() {
  * Bump the icon above the footer bar
  */
 
-add_action('wp_enqueue_scripts', 'rx_x_sttngs_display_chat_above_footer_styles');
-function rx_x_sttngs_display_chat_above_footer_styles() {
-    $rx_x_sttngs_display_chat_above_footer = get_option('rx_x_sttngs_display_chat_above_footer');
+add_action('wp_enqueue_scripts', 'rxstg_display_chat_above_footer_styles');
+function rxstg_display_chat_above_footer_styles() {
+    $rxstg_display_chat_above_footer = get_option('rxstg_display_chat_above_footer');
 
-    if($rx_x_sttngs_display_chat_above_footer && check_for_plugin('woocommerce')){
-        wp_enqueue_style( 'rt_x_settings', plugin_dir_url( __FILE__ ) . 'css/rx_x_sttngs_display_chat_above_footer.css' );
+    if($rxstg_display_chat_above_footer && rxstg_check_for_plugin('woocommerce')){
+        wp_enqueue_style( 'rxstg_display_chat_above_footer', plugin_dir_url( __FILE__ ) . 'css/rxstg_display_chat_above_footer.css' );
         echo '
         <script>
         window.onload = function(){
@@ -340,25 +341,22 @@ function rx_x_sttngs_display_chat_above_footer_styles() {
  * ShortCode Button
  */
 
-add_shortcode('rocketchat', 'rx_x_sttngs_shortcode');
-function rx_x_sttngs_shortcode( $atts ) {
+add_shortcode('rocketchat', 'rxstg_shortcode');
+function rxstg_shortcode( $atts ) {
     $atts = shortcode_atts( array(
         'title' => 'Live Chat',
     ), $atts, 'rocketchat' );
 
-    return '<button type="button" class="btn" id="rx_x_sttngs_shortcode_btn" onClick="RocketChat(function() {this.maximizeWidget();});">'. $atts['title'] .' <span class="dashicons dashicons-format-status"></span></button>';
+    return '<button type="button" class="btn" id="rxstg_shortcode_btn" onClick="RocketChat(function() {this.maximizeWidget();});">'. $atts['title'] .' <span class="dashicons dashicons-format-status"></span></button>';
 }
 
 /**
  * Ensure DashIcons are used on frontend too
  */
 
-add_action( 'wp_enqueue_scripts', 'load_dashicons_front_end' );
-function load_dashicons_front_end() {
+add_action( 'wp_enqueue_scripts', 'rxstg_load_dashicons_front_end' );
+function rxstg_load_dashicons_front_end() {
 	wp_enqueue_style( 'dashicons' );
 }
-
-
-
 
 ?>
